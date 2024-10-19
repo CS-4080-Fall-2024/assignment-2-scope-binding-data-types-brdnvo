@@ -23,28 +23,23 @@ class Sudoku:
                 
             # Else: return True
             return True
-            
-        def solve(row, column):
-            if row == board_size: # Once row is filled, return true
-                return True
-            if column == board_size: # Once column is filled, go to next row
-                return solve(row+1, 0)
-            
-            if board[row][column] == 0: # If space isn't occupied, iterate through algorithm
-                for i in range(1, board_size+1):
-                    if empty_space(row, column, i): # If conditions are met, add 'i' to board
-                        board[row][column] = i 
-                        
-                        if solve(row, column + 1): # Check if the algorithm can fill the next column
-                            return True
-                        else: 
-                            board[row][column] = 0 # Backtrack by resetting the space as empty and use the next index
-                return False # Return false if another number is found on the conditional (row, col, 3x3) 
-            else:
-                return solve(row, column + 1) # Move to next column
-            
+
+        def solve():
+            # Iterate through each value of 2-D array sudoku board
+            for i in range(board_size):
+                for j in range(board_size):
+                    if board[i][j] == 0: # If space isn't occupied, continue with algorithm
+                        for num in range(1, board_size + 1):
+                            if empty_space(i, j, num):
+                                board[i][j] = num # If conditions are met, add 'num' to board
+                                if solve(): # Check if the algorithm can fill the next column
+                                    return True
+                                board[i][j] = 0 # Backtrack by resetting the space as empty and use the next index
+                        return False # Return false if another number is found on the conditional (row, col, 3x3) 
+            return True
+
         # Once all rows and columns are filled, print out solved sudoku board
-        if solve(0,0): 
+        if solve(): 
             for row in board:
                 print(row)
 
@@ -61,3 +56,4 @@ sudoku_board = [[5, 3, 0, 0, 7, 0, 0, 0, 0],
 sudokuTest = Sudoku() 
 sudokuTest.solveSudoku(sudoku_board) # Method call for example board
 
+# Inspiration for this program was taken from this reference https://leetcode.com/problems/sudoku-solver/solutions/1947604/python-easiest-recursive-solution 

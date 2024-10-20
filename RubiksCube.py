@@ -1,3 +1,9 @@
+"""Brandon Vo
+   CS 4080
+   Question 4: Rubik's Cube 
+"""
+
+
 class RubiksCube:
     def __init__(self):
         # Define the color structure for each face
@@ -260,6 +266,6 @@ if __name__ == "__main__":
     cube.rotate_top_bottomRow()
     cube.display()
 
-
+# These references were used to help faciliate this program
 # https://towardsdatascience.com/rubiks-cube-solver-96fa6c56fbe4 (understanding 3D array representation)
 # https://medium.com/@ekollie324/how-to-build-a-rubiks-cube-in-python-c3bd19cbcd73 (understanding rotation logic)

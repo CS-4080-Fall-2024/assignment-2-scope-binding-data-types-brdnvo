@@ -28,10 +28,10 @@ class RubiksCube:
         }
 
     def display(self):
-        # Display the cube's current state
+    # Display the cube's current state
         for face in self.cube:
             print(f"{face} Face:")
-            # Display current face/side
+        # Display current face/side
             for row in self.cube[face]:
                 print(" ".join(row))
             print()
@@ -81,6 +81,7 @@ class RubiksCube:
                 self.cube["Top"][2-i][0] = original_topFace[2][i] #20 10 00 -> 22 21 20
                 self.cube["Top"][2][i] = original_topFace[2-i][2] #22 21 20 -> 02 12 22
                 self.cube["Top"][2-i][2] = original_topFace[0][i] #02 12 22 -> 00 01 02
+
 
 #-----------------------------------------------------------------------------------------------------------------------
     # Method 2: Rotate the middle row of the front face
@@ -239,9 +240,9 @@ class RubiksCube:
 
                 # Rotate Back Face
                 self.cube["Back"][0][i] = original_backFace[2-i][0] #00 01 02 -> 20 10 00
-                self.cube["Back"][2-i][0] = original_backFace[2][i] #20 10 00 -> 22 21 20
-                self.cube["Back"][2][i] = original_backFace[2-i][2] #22 21 20 -> 02 12 22
-                self.cube["Back"][2-i][2] = original_backFace[0][i] #02 12 22 -> 00 01 02
+                self.cube["Back"][2-i][0] = original_backFace[2][2-i] #20 10 00 -> 22 21 20
+                self.cube["Back"][2][2-i] = original_backFace[i][2] #22 21 20 -> 02 12 22
+                self.cube["Back"][i][2] = original_backFace[0][i] #02 12 22 -> 00 01 02
 
 #-----------------------------------------------------------------------------------------------------------------------
     # Method 8: Rotate the middle row of the top face
@@ -283,9 +284,9 @@ class RubiksCube:
 
             else: # Rotate the bottom row to the left instead
                 self.cube["Top"][2][i] = self.cube["Right"][i][0]  
-                self.cube["Right"][i][0] = self.cube["Bottom"][0][i] # Inverse right face (vertical)
-                self.cube["Bottom"][0][i] = self.cube["Left"][i][2] # Inverse bottom face (horizontal)
-                self.cube["Left"][i][2] = temp_row[i] # Inverse left face (vertical)
+                self.cube["Right"][i][0] = self.cube["Bottom"][0][2-i] # Inverse right face (vertical)
+                self.cube["Bottom"][0][2-i] = self.cube["Left"][2-i][2] # Inverse bottom face (horizontal)
+                self.cube["Left"][2-i][2] = temp_row[i] # Inverse left face (vertical)
 
                 # Rotate Front face
                 self.cube["Front"][0][i] = original_frontFace[i][2] #00 01 02 -> 02 12 22
@@ -295,22 +296,49 @@ class RubiksCube:
 
 # Example of using the RubiksCube class
 if __name__ == "__main__":
+
     cube = RubiksCube()
-    print("Initial Cube State:")
+    print("Initial Rubik's Cube State:")
     cube.display()
 
-
-    print("1) After rotating the top row right:")
+    print("1) After rotating the frontFace top row right:")
     cube.rotate_front_topRow()
     cube.display()
 
-    print("\n--------------\n2) After rotating the left column down:")
+    print("\n--------------\n2) After rotating the frontFace middle row right:")
+    cube.rotate_front_middleRow()
+    cube.display()
+
+    print("\n--------------\n3) After rotating the frontFace bottom row left:")
+    cube.rotate_front_bottomRow(clockwise=False) 
+    cube.display()
+
+    print("\n--------------\n4) After rotating the frontFace left column down:")
     cube.rotate_front_leftColumn(clockwise=False)
     cube.display()
-    
-    print("\n--------------\n3) After rotating the top row right:")
-    cube.rotate_top_topRow()
+
+    print("\n--------------\n5) After rotating the frontFace middle column up:")
+    cube.rotate_front_middleColumn() 
     cube.display()
+
+    print("\n--------------\n6) After rotating the frontFace right column down:")
+    cube.rotate_front_rightColumn(clockwise=False) 
+    cube.display()
+
+    print("\n--------------\n7) After rotating the topFace top row left:")
+    cube.rotate_top_topRow(clockwise=False)
+    cube.display()
+
+    print("\n--------------\n8) After rotating the topFace middle row right:")
+    cube.rotate_top_middleRow()
+    cube.display()
+
+    print("\n--------------\n9) After rotating the topFace bottom row right:")
+    cube.rotate_top_bottomRow()
+    cube.display()
+    
+
+
 
 # These references were used to help faciliate this program
 # https://towardsdatascience.com/rubiks-cube-solver-96fa6c56fbe4 (understanding 3D array representation)
